@@ -3,18 +3,25 @@
     "name": "Ga-Matlala",
     "type": "village",
     "province": "Limpopo",
-    "recommended_businesses": ["Tuck Shop", "Goat Farming", "Mobile Solar Charging"]
-  },
-  {
-    "name": "Soweto",
-    "type": "township",
-    "province": "Gauteng",
-    "recommended_businesses": ["Hair Salon", "Car Wash", "Shisanyama"]
-  },
-  {
-    "name": "Umhlanga",
-    "type": "suburb",
-    "province": "KwaZulu-Natal",
-    "recommended_businesses": ["Boutique Store", "Tech Repair Shop", "Fitness Studio"]
+    "recommended_businesses": [
+      {
+        "name": "Tuck Shop",
+        "plan": {
+          "description": "A small home-based store selling daily essentials.",
+          "startup_cost": "R5,000 - R10,000",
+          "requirements": ["Cooler box", "Stock (snacks, drinks, bread)", "Cash box"],
+          "potential": "R500 - R1,000 per week profit"
+        }
+      },
+      {
+        "name": "Goat Farming",
+        "plan": {
+          "description": "Raising goats for meat or milk in rural plots.",
+          "startup_cost": "R15,000 - R25,000",
+          "requirements": ["3-5 goats", "Fencing", "Shelter", "Feed"],
+          "potential": "High demand in festive seasons"
+        }
+      }
+    ]
   }
 ]

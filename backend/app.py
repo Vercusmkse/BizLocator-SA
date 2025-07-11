@@ -19,6 +19,7 @@ def recommend():
     location = request.args.get("location", "").lower()
     for loc in LOCATIONS:
         if loc["name"].lower() == location:
+            # return full business plan info
             return jsonify({
                 "location": loc["name"],
                 "businesses": loc["recommended_businesses"]
