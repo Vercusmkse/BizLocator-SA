@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Ga-Matlala",
+    "type": "village",
+    "province": "Limpopo",
+    "recommended_businesses": ["Tuck Shop", "Goat Farming", "Mobile Solar Charging"]
+  },
+  {
+    "name": "Soweto",
+    "type": "township",
+    "province": "Gauteng",
+    "recommended_businesses": ["Hair Salon", "Car Wash", "Shisanyama"]
+  },
+  {
+    "name": "Umhlanga",
+    "type": "suburb",
+    "province": "KwaZulu-Natal",
+    "recommended_businesses": ["Boutique Store", "Tech Repair Shop", "Fitness Studio"]
+  }
+]
