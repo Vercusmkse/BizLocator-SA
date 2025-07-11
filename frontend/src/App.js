@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getRecommendations } from "./services/api";
 import MapView from "./components/MapView";
+import StarRating from "./components/StarRating";
 import "./App.css";
 
 // Coordinates for each location
@@ -24,7 +25,7 @@ function App() {
     localStorage.getItem("darkMode") === "true"
   );
 
-  // Apply dark mode class to <body>
+  // Apply dark mode to <body>
   useEffect(() => {
     document.body.setAttribute("data-theme", darkMode ? "dark" : "light");
     localStorage.setItem("darkMode", darkMode);
@@ -93,7 +94,7 @@ function App() {
       {/* ❗ Error */}
       {error && <p className="error">{error}</p>}
 
-      {/* 📦 Business Cards */}
+      {/* 📦 Business Plan Cards */}
       {results &&
         results.map((biz, index) => (
           <div key={index} className="card">
@@ -112,6 +113,9 @@ function App() {
                 📄 Download Business Plan (PDF)
               </a>
             )}
+
+            {/* ⭐ Star Rating */}
+            <StarRating planId={`${location}-${biz.name}`} />
           </div>
         ))}
     </div>
