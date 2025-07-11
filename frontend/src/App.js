@@ -1,9 +1,21 @@
 import React, { useState } from "react";
 import { getRecommendations } from "./services/api";
-import "./App.css"; // Make sure this file exists
+import MapView from "./components/MapView"; // Import the Google Maps component
+import "./App.css"; // Styling
+
+// Hardcoded coordinates for locations
+const COORDS = {
+  "Soweto":      { lat: -26.2485, lng: 27.8585 },
+  "Ga-Matlala":  { lat: -23.6484, lng: 28.5980 },
+  "Umhlanga":    { lat: -29.7264, lng: 31.0748 },
+  "Tembisa":     { lat: -25.9992, lng: 28.2268 },
+  "Mamelodi":    { lat: -25.7167, lng: 28.3898 },
+  "KwaMashu":    { lat: -29.7038, lng: 30.9838 },
+};
 
 function App() {
   const [location, setLocation] = useState("");
+  const [coords, setCoords] = useState(null);
   const [results, setResults] = useState(null);
   const [error, setError] = useState("");
 
@@ -12,9 +24,11 @@ function App() {
     try {
       const data = await getRecommendations(location);
       setResults(data.businesses);
+      setCoords(COORDS[location] || null);
       setError("");
     } catch {
       setResults(null);
+      setCoords(null);
       setError("Location not found");
     }
   };
@@ -23,7 +37,7 @@ function App() {
     <div className="App">
       <h1>BizLocator SA</h1>
 
-      {/* Location dropdown */}
+      {/* Location Dropdown */}
       <div className="search-box">
         <select
           value={location}
@@ -46,10 +60,17 @@ function App() {
         <button onClick={handleSearch}>Search</button>
       </div>
 
-      {/* Error Message */}
+      {/* Google Map */}
+      {coords && (
+        <div style={{ marginBottom: "30px" }}>
+          <MapView center={coords} />
+        </div>
+      )}
+
+      {/* Error */}
       {error && <p className="error">{error}</p>}
 
-      {/* Business Results */}
+      {/* Business Recommendations */}
       {results &&
         results.map((biz, index) => (
           <div key={index} className="card">
