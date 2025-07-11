@@ -1,81 +1,71 @@
 import React, { useState } from "react";
-import { getRecommendations } from "./services/api";   // <-- make sure api.js exists
+import { getRecommendations } from "./services/api";
+import "./App.css"; // Make sure this file exists
 
 function App() {
-  /* ----------------------------- state ----------------------------- */
-  const [location, setLocation]   = useState("");   // text in the search box
-  const [results, setResults]     = useState(null); // array of businesses (or null)
-  const [error, setError]         = useState("");   // error message string
+  const [location, setLocation] = useState("");
+  const [results, setResults] = useState(null);
+  const [error, setError] = useState("");
 
-  /* ------------------------ event handlers ------------------------- */
   const handleSearch = async () => {
-    if (!location.trim()) return;  // ignore empty search
+    if (!location) return;
     try {
-      const data = await getRecommendations(location.trim());
+      const data = await getRecommendations(location);
       setResults(data.businesses);
       setError("");
-    } catch (err) {
+    } catch {
       setResults(null);
       setError("Location not found");
     }
   };
 
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") handleSearch();
-  };
-
-  /* ---------------------------- render ----------------------------- */
   return (
-    <div style={styles.container}>
-      <h1 style={styles.heading}>BizLocator SA</h1>
+    <div className="App">
+      <h1>BizLocator SA</h1>
 
-      {/* search box */}
-      <div style={styles.searchBox}>
-        <input
-          type="text"
-          placeholder="Enter a location (e.g., Soweto)"
+      {/* Location dropdown */}
+      <div className="search-box">
+        <select
           value={location}
           onChange={(e) => setLocation(e.target.value)}
-          onKeyPress={handleKeyPress}
-          style={styles.input}
-        />
-        <button onClick={handleSearch} style={styles.button}>
-          Search
-        </button>
+          style={{
+            padding: "12px",
+            fontSize: "16px",
+            borderRadius: "8px",
+            flex: 1,
+          }}
+        >
+          <option value="">-- Select a location --</option>
+          <option value="Soweto">Soweto</option>
+          <option value="Ga-Matlala">Ga-Matlala</option>
+          <option value="Umhlanga">Umhlanga</option>
+          <option value="Tembisa">Tembisa</option>
+          <option value="Mamelodi">Mamelodi</option>
+          <option value="KwaMashu">KwaMashu</option>
+        </select>
+        <button onClick={handleSearch}>Search</button>
       </div>
 
-      {/* error message */}
-      {error && <p style={styles.error}>{error}</p>}
+      {/* Error Message */}
+      {error && <p className="error">{error}</p>}
 
-      {/* results */}
+      {/* Business Results */}
       {results &&
-        results.map((biz, idx) => (
-          <div key={idx} style={styles.card}>
-            <h3 style={styles.cardTitle}>{biz.name}</h3>
+        results.map((biz, index) => (
+          <div key={index} className="card">
+            <h3>{biz.name}</h3>
+            <p><strong>Description:</strong> {biz.plan.description}</p>
+            <p><strong>Startup Cost:</strong> {biz.plan.startup_cost}</p>
+            <p><strong>Requirements:</strong> {biz.plan.requirements.join(", ")}</p>
+            <p><strong>Profit Potential:</strong> {biz.plan.potential}</p>
 
-            <p>
-              <strong>Description:</strong> {biz.plan.description}
-            </p>
-            <p>
-              <strong>Startup Cost:</strong> {biz.plan.startup_cost}
-            </p>
-            <p>
-              <strong>Requirements:</strong>{" "}
-              {biz.plan.requirements.join(", ")}
-            </p>
-            <p>
-              <strong>Profit Potential:</strong> {biz.plan.potential}
-            </p>
-
-            {/* download link */}
             {biz.plan.pdf_file && (
               <a
                 href={`http://127.0.0.1:5000/pdf/${biz.plan.pdf_file}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={styles.link}
               >
-                📄 Download Business Plan (PDF)
+                📄 Download Business Plan (PDF)
               </a>
             )}
           </div>
@@ -83,60 +73,5 @@ function App() {
     </div>
   );
 }
-
-/* ----------------------------- styles ----------------------------- */
-const styles = {
-  container: {
-    maxWidth: "800px",
-    margin: "0 auto",
-    padding: "40px 20px",
-    fontFamily: "Arial, sans-serif",
-  },
-  heading: {
-    textAlign: "center",
-    marginBottom: "30px",
-  },
-  searchBox: {
-    display: "flex",
-    gap: "10px",
-    marginBottom: "20px",
-  },
-  input: {
-    flex: 1,
-    padding: "10px",
-    fontSize: "16px",
-    borderRadius: "6px",
-    border: "1px solid #ccc",
-  },
-  button: {
-    padding: "10px 20px",
-    fontSize: "16px",
-    borderRadius: "6px",
-    border: "none",
-    backgroundColor: "#007bff",
-    color: "#fff",
-    cursor: "pointer",
-  },
-  error: {
-    color: "red",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  card: {
-    border: "1px solid #ddd",
-    borderRadius: "10px",
-    padding: "20px",
-    marginBottom: "20px",
-    boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
-  },
-  cardTitle: { marginTop: 0 },
-  link: {
-    marginTop: "10px",
-    display: "inline-block",
-    color: "#007bff",
-    textDecoration: "none",
-    fontWeight: 600,
-  },
-};
 
 export default App;
