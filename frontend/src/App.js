@@ -18,14 +18,14 @@ function App() {
   const [location, setLocation] = useState("");
   const [coords, setCoords] = useState(null);
   const [results, setResults] = useState(null);
+  const [savedPlans, setSavedPlans] = useState([]);
   const [error, setError] = useState("");
 
-  // Dark mode state from localStorage
+  // 🌙 Dark Mode toggle using localStorage
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem("darkMode") === "true"
   );
 
-  // Apply dark mode to <body>
   useEffect(() => {
     document.body.setAttribute("data-theme", darkMode ? "dark" : "light");
     localStorage.setItem("darkMode", darkMode);
@@ -42,6 +42,14 @@ function App() {
       setResults(null);
       setCoords(null);
       setError("Location not found");
+    }
+  };
+
+  const handleSavePlan = (plan) => {
+    const planId = `${location}-${plan.name}`;
+    if (!savedPlans.some(p => p.id === planId)) {
+      setSavedPlans(prev => [...prev, { id: planId, name: plan.name }]);
+      alert(`Saved: ${plan.name}`);
     }
   };
 
@@ -91,7 +99,7 @@ function App() {
         </div>
       )}
 
-      {/* ❗ Error */}
+      {/* ❗ Error Message */}
       {error && <p className="error">{error}</p>}
 
       {/* 📦 Business Plan Cards */}
@@ -104,6 +112,7 @@ function App() {
             <p><strong>Requirements:</strong> {biz.plan.requirements.join(", ")}</p>
             <p><strong>Profit Potential:</strong> {biz.plan.potential}</p>
 
+            {/* 📄 Download PDF */}
             {biz.plan.pdf_file && (
               <a
                 href={`http://127.0.0.1:5000/pdf/${biz.plan.pdf_file}`}
@@ -116,8 +125,36 @@ function App() {
 
             {/* ⭐ Star Rating */}
             <StarRating planId={`${location}-${biz.name}`} />
+
+            {/* 💾 Save Plan Button */}
+            <button
+              onClick={() => handleSavePlan(biz)}
+              style={{
+                marginTop: "10px",
+                padding: "8px 12px",
+                backgroundColor: "#007bff",
+                color: "#fff",
+                border: "none",
+                borderRadius: "4px",
+                cursor: "pointer",
+              }}
+            >
+              💾 Save Plan
+            </button>
           </div>
         ))}
+
+      {/* 💼 Saved Plans Section */}
+      {savedPlans.length > 0 && (
+        <div className="saved-section">
+          <h2>💼 Saved Plans</h2>
+          <ul>
+            {savedPlans.map((plan) => (
+              <li key={plan.id}>{plan.name}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
