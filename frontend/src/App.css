@@ -1,10 +1,30 @@
-/* App.css */
+:root {
+  --bg-color: #f9f9f9;
+  --text-color: #222;
+  --card-bg: #fff;
+  --card-shadow: rgba(0, 0, 0, 0.06);
+  --button-bg: #007bff;
+  --button-text: #fff;
+  --link-color: #007bff;
+}
+
+[data-theme="dark"] {
+  --bg-color: #121212;
+  --text-color: #f9f9f9;
+  --card-bg: #1e1e1e;
+  --card-shadow: rgba(255, 255, 255, 0.05);
+  --button-bg: #444;
+  --button-text: #fff;
+  --link-color: #66ccff;
+}
 
 body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f9f9f9;
   margin: 0;
   padding: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .App {
@@ -15,8 +35,7 @@ body {
 
 h1 {
   text-align: center;
-  color: #333;
-  margin-bottom: 30px;
+  color: var(--text-color);
 }
 
 .search-box {
@@ -26,6 +45,7 @@ h1 {
   margin-bottom: 30px;
 }
 
+.search-box select,
 .search-box input {
   flex: 1;
   padding: 12px;
@@ -39,8 +59,8 @@ h1 {
   font-size: 16px;
   border: none;
   border-radius: 8px;
-  background-color: #007bff;
-  color: white;
+  background-color: var(--button-bg);
+  color: var(--button-text);
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
@@ -50,12 +70,12 @@ h1 {
 }
 
 .card {
-  background-color: white;
+  background-color: var(--card-bg);
   border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 8px var(--card-shadow);
   padding: 20px;
   margin-bottom: 20px;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, background-color 0.3s ease;
 }
 
 .card:hover {
@@ -64,7 +84,7 @@ h1 {
 
 .card h3 {
   margin-top: 0;
-  color: #007bff;
+  color: var(--link-color);
 }
 
 .card p {
@@ -74,7 +94,7 @@ h1 {
 .card a {
   display: inline-block;
   margin-top: 12px;
-  color: #007bff;
+  color: var(--link-color);
   text-decoration: none;
   font-weight: bold;
 }
@@ -87,4 +107,23 @@ h1 {
   color: red;
   text-align: center;
   font-weight: bold;
+}
+
+/* Dark Mode Toggle */
+.toggle-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.toggle-container label {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: var(--text-color);
+}
+
+.toggle-container input[type="checkbox"] {
+  margin-left: 10px;
+  transform: scale(1.2);
 }

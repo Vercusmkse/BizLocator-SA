@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { getRecommendations } from "./services/api";
-import MapView from "./components/MapView"; // Import the Google Maps component
-import "./App.css"; // Styling
+import MapView from "./components/MapView";
+import "./App.css";
 
-// Hardcoded coordinates for locations
+// Coordinates for each location
 const COORDS = {
   "Soweto":      { lat: -26.2485, lng: 27.8585 },
   "Ga-Matlala":  { lat: -23.6484, lng: 28.5980 },
@@ -18,6 +18,17 @@ function App() {
   const [coords, setCoords] = useState(null);
   const [results, setResults] = useState(null);
   const [error, setError] = useState("");
+
+  // Dark mode state from localStorage
+  const [darkMode, setDarkMode] = useState(
+    localStorage.getItem("darkMode") === "true"
+  );
+
+  // Apply dark mode class to <body>
+  useEffect(() => {
+    document.body.setAttribute("data-theme", darkMode ? "dark" : "light");
+    localStorage.setItem("darkMode", darkMode);
+  }, [darkMode]);
 
   const handleSearch = async () => {
     if (!location) return;
@@ -37,7 +48,19 @@ function App() {
     <div className="App">
       <h1>BizLocator SA</h1>
 
-      {/* Location Dropdown */}
+      {/* 🌙 Dark Mode Toggle */}
+      <div className="toggle-container">
+        <label>
+          🌙 Dark Mode
+          <input
+            type="checkbox"
+            checked={darkMode}
+            onChange={() => setDarkMode(!darkMode)}
+          />
+        </label>
+      </div>
+
+      {/* 📍 Location Dropdown */}
       <div className="search-box">
         <select
           value={location}
@@ -60,17 +83,17 @@ function App() {
         <button onClick={handleSearch}>Search</button>
       </div>
 
-      {/* Google Map */}
+      {/* 🗺 Google Map */}
       {coords && (
         <div style={{ marginBottom: "30px" }}>
           <MapView center={coords} />
         </div>
       )}
 
-      {/* Error */}
+      {/* ❗ Error */}
       {error && <p className="error">{error}</p>}
 
-      {/* Business Recommendations */}
+      {/* 📦 Business Cards */}
       {results &&
         results.map((biz, index) => (
           <div key={index} className="card">
