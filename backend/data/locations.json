@@ -10,7 +10,8 @@
           "description": "A small home-based store selling daily essentials.",
           "startup_cost": "R5,000 - R10,000",
           "requirements": ["Cooler box", "Stock (snacks, drinks, bread)", "Cash box"],
-          "potential": "R500 - R1,000 per week profit"
+          "potential": "R500 - R1,000 per week profit",
+          "pdf_file": "tuck-shop.pdf"
         }
       },
       {
@@ -19,7 +20,9 @@
           "description": "Raising goats for meat or milk in rural plots.",
           "startup_cost": "R15,000 - R25,000",
           "requirements": ["3-5 goats", "Fencing", "Shelter", "Feed"],
-          "potential": "High demand in festive seasons"
+          "potential": "High demand in festive seasons",
+           "pdf_file": "goat-farming.pdf"
+
         }
       }
     ]

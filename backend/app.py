@@ -1,4 +1,6 @@
 from flask import Flask, jsonify, request
+from flask import send_from_directory
+
 import json
 import os
 
@@ -13,6 +15,11 @@ with open(DATA_FILE, 'r') as f:
 @app.route("/")
 def home():
     return jsonify({"message": "BizLocator SA API is running!"})
+
+@app.route("/pdf/<filename>")
+def get_pdf(filename):
+    return send_from_directory("pdfs", filename)
+
 
 @app.route("/recommend", methods=["GET"])
 def recommend():
